@@ -1,0 +1,16 @@
+{
+  "name": "chai-backend-project-setup",
+  "version": "1.0.0",
+  "description": "Backend project setup for node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Javascript",
+    "backend",
+    "node"
+  ],
+  "author": "Vibhor Tyagi",
+  "license": "ISC"
+}
