@@ -2,9 +2,10 @@
   "name": "chai-backend-project-setup",
   "version": "1.0.0",
   "description": "Backend project setup for node",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [
     "Javascript",
@@ -12,5 +13,11 @@
     "node"
   ],
   "author": "Vibhor Tyagi",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
 }
