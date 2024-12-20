@@ -9,7 +9,19 @@ dotenv.config({
 // import express from "express"
 console.log("====== PORT",process.env.PORT)
 
+
+// this is async function thats why we write a 
+// try catch because asynch function return promises
+
 connectDB()
+.then(() => {
+    app.listen(process.env.PORT || 4000, () =>{
+        console.log(`Server is running at posr ${process.env.PORT}`)
+    })
+})
+.catch((err) => {
+    console.log("monfo db connected !!! ",err)
+})
 
 
 
