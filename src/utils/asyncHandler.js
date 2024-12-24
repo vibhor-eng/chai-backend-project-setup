@@ -5,7 +5,7 @@ const asyncHandler = (requestHandler) => {
         Promise.resolve().catch((err) => next(err))
     }
 }
-
+    
 export {asyncHandler}
 
 // const asyncHandler = (fn) => aysnc (req,res,next) => {
