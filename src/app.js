@@ -19,7 +19,7 @@ app.use(express.json({
     limit:"16kb"
 }))
 
-// url encoded
+// url encoded limit of request
 app.use(express.urlencoded({
     extended:true,
     limit:"16kb"

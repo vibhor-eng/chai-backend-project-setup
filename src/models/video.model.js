@@ -45,3 +45,7 @@ videoSchema.plugin(mongooseAggregatePaginate)
 
 
 export const Video = mongoose.model("Video",videoSchema)
+
+// ##mongoose-aggregate-paginate-v2 this package used for aggregate query inserrtmany or updatemany
+
+// we can write plugin 
