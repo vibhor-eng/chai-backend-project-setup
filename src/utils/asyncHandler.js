@@ -1,7 +1,7 @@
 
 // arrow function
 const asyncHandler = (requestHandler) => {
-    (req,res,next) => {
+    return (req,res,next) => {
         Promise.resolve().catch((err) => next(err))
     }
 }
