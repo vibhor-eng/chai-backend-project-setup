@@ -57,7 +57,7 @@ const userSchema = new Schema({
 //this is pre hook before save user data it will encrypt user password
 userSchema.pre("save", async function(next){
     if(!this.isModified("password")) return next();//check if password modify then hi bcryt hoga password before save
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 

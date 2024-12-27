@@ -34,6 +34,7 @@ app.use(cookieParser())
 // configuration upper
 
 //routes import
+
 import userRouter from './routes/user.router.js'
 
 //routes declaration
