@@ -22,7 +22,7 @@ const registerUser = asyncHandler( async (req, res) => {
     */
 
         const {fullName, email, username, password} = req.body
-        console.log("email: ",email)
+        console.log("fullName: ",fullName)
         // single single param check
         // if(fullName === ''){
         //     throw new ApiError(400, "Full Name is required")
@@ -37,8 +37,8 @@ const registerUser = asyncHandler( async (req, res) => {
 
         // User.findOne({email})
         // or
-        const existedUser = User.findOne({
-            $or: [{username},{email}] //check email or username
+        const existedUser = await User.findOne({
+            $or: [{ username },{ email }] //check email or username
         })
 
         if(existedUser){
@@ -46,7 +46,14 @@ const registerUser = asyncHandler( async (req, res) => {
         }
         //get path of image file
         const avatarLocalPath = req.files?.avatar[0]?.path;
-        const coverImageLocalPath = req.files?.coverImage[0]?.path
+        // in case cover image not upload comment below line
+        // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+        // this case cover image sent or not
+        let coverImageLocalPath;
+        if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+            coverImageLocalPath = req.files.coverImage[0].path
+        }
 
         if(!avatarLocalPath){
             throw new ApiError(400, "Avatar is required")
