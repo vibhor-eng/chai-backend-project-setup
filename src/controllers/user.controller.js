@@ -206,7 +206,7 @@ const refreshAccessToken = asyncHandler(async(req,res) => {
     }
 
     //verify means jo milkar hmne refresh token bnaya tha vo data hum nikal skte hai
-    
+
     const decodedToken = jwt.verify(
         incomingRefreshToken,
         process.env.REFRESH_TOKEN_SECRET
@@ -239,7 +239,7 @@ const refreshAccessToken = asyncHandler(async(req,res) => {
         new ApiResponse(
             200,
             {
-                accessToken,refreshToken:newrefreshToken
+                user:accessToken,newrefreshToken
             },
             "Access Token refreshed"
         )
