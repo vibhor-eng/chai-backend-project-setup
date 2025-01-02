@@ -29,7 +29,7 @@ app.use(express.urlencoded({
 // public is a folder name where file will be save
 app.use(express.static("public"))
 
-app.use(cookieParser())
+app.use(cookieParser())//accespt cokkie any where like hmne usercontroller me kiya
 
 // configuration upper
 

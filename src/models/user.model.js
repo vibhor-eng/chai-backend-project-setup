@@ -65,28 +65,33 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password,this.password)
 }
 // we can create method by schema
-userSchema.methods.generateAccessToken = async function(password){
-    jwt.sign({
-        _id:this._id,
-        emai:this.email,
-        username:this.username
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn:process.env.ACCESS_TOKEN_EXPIRY
-    }
-)
+userSchema.methods.generateAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            // expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn:1000
+        }
+    )
 }
-
-userSchema.methods.generateRefreshToken = async function(password){
-    jwt.sign({
-        _id:this._id
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn:process.env.REFRESH_TOKEN_EXPIRY
-    }
-)
+userSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            // expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn:100000
+        }
+    )
 }
 
 

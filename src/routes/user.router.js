@@ -1,11 +1,13 @@
 import { Router } from "express";
-import {registerUser} from "../controllers/user.controller.js"
+import {loginUser, logoutUser, refreshAccessToken, registerUser} from "../controllers/user.controller.js"
 
 import { upload } from "../middlewares/multer.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router()
 
 router.route("/register").post(
+    //this is middleware upload
     upload.fields([
         {
             name:"avatar",
@@ -17,6 +19,19 @@ router.route("/register").post(
         }
     ]), //upload kaafi cheez leta hai but multiple file upload ka skte hai to field lete hai
     registerUser
+)
+
+router.route("/login").post(loginUser)
+
+// secured routes
+router.route("/logout").post(
+    // add middleware
+    verifyJWT,
+    logoutUser
+)
+
+router.route("/refresh-token").post(
+    refreshAccessToken
 )
 
 export default router
