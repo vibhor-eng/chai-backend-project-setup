@@ -124,7 +124,7 @@ const loginUser = asyncHandler(async (req,res) => {
     //send cookie
 
     const {email,username,password} = req.body
-
+    
     if(!username && !email){
         throw new ApiError(400, "username or email is required.")
     }
@@ -253,7 +253,9 @@ const changeCurrentPassword = asyncHandler(async(req,res) => {
     const {oldPassword,newPassword} = req.body
 
     const user = await User.findById(req.user?._id)
-
+console.log(req.user?._id)
+console.log(oldPassword)
+console.log(newPassword)
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
     if(!isPasswordCorrect){
         throw new ApiError(400,"Invalid old password")
@@ -268,7 +270,8 @@ const changeCurrentPassword = asyncHandler(async(req,res) => {
 
 const getCurrentUser = asyncHandler(async(req,res) => {
 
-    return res.status(200).json(200,req.user,"current user fetched successfully.")//ye middleware se aa rha hai hmara uth middlwware me req.user me user daal dete hai
+    return res.status(200)
+    .json(new ApiResponse(200,req.user,"User fetched successfully."))//ye middleware se aa rha hai hmara uth middlwware me req.user me user daal dete hai
 
 })
 
