@@ -55,6 +55,7 @@ const userSchema = new Schema({
 
 // ###hooks
 //this is pre hook before save user data it will encrypt user password
+// agar password change kar rh hia means like change password
 userSchema.pre("save", async function(next){
     if(!this.isModified("password")) return next();//check if password modify then hi bcryt hoga password before save
     this.password = await bcrypt.hash(this.password, 10)
