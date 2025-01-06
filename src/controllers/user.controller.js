@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { Subscription } from "../models/subscription.model.js";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshToken = async(userId) => 
 {
@@ -433,4 +434,18 @@ const getUserChannelProfile = asyncHandler(async(req,res) => {
 
 })
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage,getUserChannelProfile}
+const getWatchHistory = asyncHandler(async(req,res) => {
+    const user = await user.aggregate([
+
+        {
+
+            $match:{
+                _id: new mongoose.Types.ObjectId(req.user._id)//get id with object if write simple req/user._id then by mongoose we get simple _id
+            }
+
+        }
+
+    ])
+})
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage,getUserChannelProfile,getWatchHistory}
