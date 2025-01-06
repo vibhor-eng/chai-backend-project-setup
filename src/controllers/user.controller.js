@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { Subscription } from "../models/subscription.model.js";
 
 const generateAccessAndRefreshToken = async(userId) => 
 {
@@ -357,4 +358,79 @@ const updateUserCoverImage = asyncHandler(async(req,res) => {
 
 })
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage}
+const getUserChannelProfile = asyncHandler(async(req,res) => {
+
+    const {username} = req.params
+
+    if(!username?.trim()){
+        throw new ApiError(400,"Username is missing")
+    }
+
+    // yha hmne user aur Subscription table me join lgaya hai aur nikala hai kitne subscriber hai hmare aur hmne kitno ko subscribe kiya hai/
+    const channel = await User.aggregate(
+        [
+            {
+                $match:{
+                    username:username?.toLowerCase()
+                }
+            },
+            {
+                $lookup:{
+                    from:"Subscription",
+                    localField:"_id",
+                    foreignField:"channel",
+                    as:"subscribers"
+                }
+            },
+            {
+                $lookup:{
+                    from:"Subscription",
+                    localField:"_id",
+                    foreignField:"subscriber",
+                    as:"subscribeedTo"
+                }
+            },
+            {
+                $addFields:{
+                    subscribersCount:{
+                        $size:"$subscriber"
+                    },
+                    channelsSubscriberToCount:{
+                        $size:"$subscribeedTo"
+                    },
+                    isSubscribed:{
+                        $cond:{
+                            if:{$in: [req.user?._id,"$subscriber.subscriber"]},
+                            then:true,
+                            else:false
+                        }
+                    }
+                }
+            },
+            {
+                //here jo field hum return kar rhe hai
+                $project:{
+                    fullName:1,//means get full name
+                    username:1,
+                    subscribersCount:1,
+                    channelsSubscriberToCount:1,
+                    avatar:1,
+                    email:1,
+                    coverImage:1
+
+                }
+            }
+        ]
+    )
+
+    if(!channel?.length){
+        throw new ApiError(404,"channel does not exist")
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,channel[0],"User Channel fetched successfully."))
+
+})
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage,getUserChannelProfile}
