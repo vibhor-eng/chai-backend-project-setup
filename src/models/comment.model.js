@@ -1,0 +1,31 @@
+import mongoose, { Schema } from "mongoose";
+
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+
+const commentSchema = new Schema(
+    {
+
+            content:{
+                type:String,
+                required:true
+            },
+            video:{
+                type:Schema.Types.ObjectId,
+                ref:"Video",
+
+            },
+            video:{
+                type:Schema.Types.ObjectId,
+                ref:"User",
+
+            }
+
+
+    },
+{timestamps:true}
+)
+
+//for pagination
+commentSchema.plugin(mongooseAggregatePaginate)
+
+export const Comment = mongoose.model("Comment",commentSchema)
