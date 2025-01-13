@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {loginUser, logoutUser, refreshAccessToken, registerUser,changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile,getWatchHistory} from "../controllers/user.controller.js"
 
-import { addComment } from "../controllers/comment.controller.js";
+import { addComment, deleteComment, getVideoComments, updateComment } from "../controllers/comment.controller.js";
 
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -68,6 +68,9 @@ router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 
 router.route("/history").get(verifyJWT,getWatchHistory)
 
+router.route("/get-video-comment/:id").get(verifyJWT,getVideoComments)
 router.route("/add-comment").post(verifyJWT,addComment)
+router.route("/update-comment").post(verifyJWT,updateComment)
+router.route("/delete-comment/:id").delete(verifyJWT,deleteComment)
 
 export default router
