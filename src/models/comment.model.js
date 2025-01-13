@@ -14,7 +14,7 @@ const commentSchema = new Schema(
                 ref:"Video",
 
             },
-            video:{
+            owner:{
                 type:Schema.Types.ObjectId,
                 ref:"User",
 

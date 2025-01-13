@@ -13,6 +13,31 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
 const addComment = asyncHandler(async (req, res) => {
     // TODO: add a comment to a video
+    
+        const ObjectId = new mongoose.Types.ObjectId;
+        const {content} = req.body
+        const owner = req.user.id
+        const video = ObjectId(req.body.video)
+
+        console.log("video",video)
+
+        if(!content){
+            throw new ApiError(400, "content is required.")
+        }
+
+        const comment = await Comment.create({
+            content,
+            video,
+            owner
+
+        })
+
+        return res.status(201).json(
+            new ApiResponse(200,CreatedUsers,"Comment has been added.")
+        )
+    
+
+
 })
 
 const updateComment = asyncHandler(async (req, res) => {
@@ -27,5 +52,5 @@ export {
     getVideoComments, 
     addComment, 
     updateComment,
-     deleteComment
-    }
+    deleteComment
+}
