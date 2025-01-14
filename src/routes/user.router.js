@@ -6,7 +6,7 @@ import { addComment, deleteComment, getVideoComments, updateComment } from "../c
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createTweet, deleteTweet, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
-import { toggleCommentLike, toggleTweetLike, toggleVideoLike } from "../controllers/like.controller.js";
+import { getLikedComments, getLikedVideos, toggleCommentLike, toggleTweetLike, toggleVideoLike } from "../controllers/like.controller.js";
 
 const router = Router()
 
@@ -83,9 +83,11 @@ router.route("/update-tweet").post(verifyJWT,updateTweet)
 router.route("/delete-tweet/:id").delete(verifyJWT,deleteTweet)
 
 // Like
-router.route("/video-toggle-like/:id").get(verifyJWT,toggleVideoLike)
+router.route("/video-toggle-like/:videoId").get(verifyJWT,toggleVideoLike)
 router.route("/comment-toggle-like/:commentId").get(verifyJWT,toggleCommentLike)
-router.route("/tweet-toggle-like/:id").get(verifyJWT,toggleTweetLike)   
+router.route("/tweet-toggle-like/:tweetId").get(verifyJWT,toggleTweetLike)  
+router.route("/get-liked-video").get(verifyJWT,getLikedVideos) 
+router.route("/get-liked-comment").get(verifyJWT,getLikedComments)   
 
 
 
