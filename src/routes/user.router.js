@@ -5,6 +5,8 @@ import { addComment, deleteComment, getVideoComments, updateComment } from "../c
 
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { createTweet, deleteTweet, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
+import { toggleCommentLike, toggleTweetLike, toggleVideoLike } from "../controllers/like.controller.js";
 
 const router = Router()
 
@@ -68,9 +70,23 @@ router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 
 router.route("/history").get(verifyJWT,getWatchHistory)
 
+// comment
 router.route("/get-video-comment/:id").get(verifyJWT,getVideoComments)
 router.route("/add-comment").post(verifyJWT,addComment)
 router.route("/update-comment").post(verifyJWT,updateComment)
 router.route("/delete-comment/:id").delete(verifyJWT,deleteComment)
+
+// twitter
+router.route("/add-tweet").post(verifyJWT,createTweet)
+router.route("/get-user-tweet").get(verifyJWT,getUserTweets)
+router.route("/update-tweet").post(verifyJWT,updateTweet)
+router.route("/delete-tweet/:id").delete(verifyJWT,deleteTweet)
+
+// Like
+router.route("/video-toggle-like/:id").get(verifyJWT,toggleVideoLike)
+router.route("/comment-toggle-like/:commentId").get(verifyJWT,toggleCommentLike)
+router.route("/tweet-toggle-like/:id").get(verifyJWT,toggleTweetLike)   
+
+
 
 export default router

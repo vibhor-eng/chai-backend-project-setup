@@ -42,7 +42,7 @@ const addComment = asyncHandler(async (req, res) => {
 
         })
 
-        const CreatedComment = await Comment.findById(comment._id).select("-_id")
+        const CreatedComment = await Comment.findById(comment._id)
 
         return res.status(201).json(
             new ApiResponse(200,CreatedComment,"Comment has been added.")
