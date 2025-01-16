@@ -7,6 +7,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createTweet, deleteTweet, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
 import { getLikedComments, getLikedVideos, toggleCommentLike, toggleTweetLike, toggleVideoLike } from "../controllers/like.controller.js";
+import { addVideoToPlaylist, createPlaylist, deletePlaylist, getPlaylistById, getUserPlaylists, removeVideoFromPlaylist, updatePlaylist } from "../controllers/playlist.controller.js";
 
 const router = Router()
 
@@ -87,7 +88,17 @@ router.route("/video-toggle-like/:videoId").get(verifyJWT,toggleVideoLike)
 router.route("/comment-toggle-like/:commentId").get(verifyJWT,toggleCommentLike)
 router.route("/tweet-toggle-like/:tweetId").get(verifyJWT,toggleTweetLike)  
 router.route("/get-liked-video").get(verifyJWT,getLikedVideos) 
-router.route("/get-liked-comment").get(verifyJWT,getLikedComments)   
+router.route("/get-liked-comment").get(verifyJWT,getLikedComments) 
+
+//playlist
+router.route("/create-playlist").post(verifyJWT,createPlaylist)
+router.route("/get-user-playlist").get(verifyJWT,getUserPlaylists)
+router.route("/get-playlist-by-id/:playlistId").get(verifyJWT,getPlaylistById)
+router.route("/delete-playlist-by-id/:playlistId").delete(verifyJWT,deletePlaylist)
+router.route("/update-playlist-by-id/:playlistId").patch(verifyJWT,updatePlaylist)
+router.route("/add-video-to-playlist-id/:playlistId/:videoId").patch(verifyJWT,addVideoToPlaylist)
+router.route("/remove-video-to-playlist-id/:playlistId/:videoId").patch(verifyJWT,removeVideoFromPlaylist)
+
 
 
 
