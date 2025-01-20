@@ -58,6 +58,52 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
+
+    const user_id = req.user.id;
+
+    // check comment exist or not on belaf of comment id
+    const videoExist = await Video.findById(videoId)
+    
+
+    if(!videoExist){
+        throw new ApiError(400,"Video not found")
+    }
+
+    if(videoExist.isPublished){//means video already published
+
+    
+                    const videoPublished =     await Video.findByIdAndUpdate(
+                        videoId,
+                            {
+                                //jo field hme set karna hai
+                                $set:{
+                                    isPublished:false,
+                                }
+                            },
+                            {new:true}
+                        ).select('-_id')
+        
+                        return res.status(200)
+                    .json(new ApiResponse(200,updatedComment,"Unpublished successfully."))
+
+    }
+    else{ //means video not published
+
+        const videoPublished =     await Video.findByIdAndUpdate(
+            videoId,
+                {
+                    //jo field hme set karna hai
+                    $set:{
+                        isPublished:true,
+                    }
+                },
+                {new:true}
+            ).select('-_id')
+
+            return res.status(200)
+        .json(new ApiResponse(200,updatedComment,"published successfully."))
+
+    }
 })
 
 export {
