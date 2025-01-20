@@ -8,6 +8,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createTweet, deleteTweet, getUserTweets, updateTweet } from "../controllers/tweet.controller.js";
 import { getLikedComments, getLikedVideos, toggleCommentLike, toggleTweetLike, toggleVideoLike } from "../controllers/like.controller.js";
 import { addVideoToPlaylist, createPlaylist, deletePlaylist, getPlaylistById, getUserPlaylists, removeVideoFromPlaylist, updatePlaylist } from "../controllers/playlist.controller.js";
+import { getAllVideos, getVideoById, publishAVideo } from "../controllers/video.controller.js";
 
 const router = Router()
 
@@ -98,6 +99,11 @@ router.route("/delete-playlist-by-id/:playlistId").delete(verifyJWT,deletePlayli
 router.route("/update-playlist-by-id/:playlistId").patch(verifyJWT,updatePlaylist)
 router.route("/add-video-to-playlist-id/:playlistId/:videoId").patch(verifyJWT,addVideoToPlaylist)
 router.route("/remove-video-to-playlist-id/:playlistId/:videoId").patch(verifyJWT,removeVideoFromPlaylist)
+
+//video
+router.route("/get-all-video").get(verifyJWT,getAllVideos)
+router.route("/publish-video").post(verifyJWT,publishAVideo)
+router.route("/get-video-by-id/:videoId").get(verifyJWT,getVideoById)
 
 
 

@@ -10,16 +10,39 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
+    const videos = await Video.find({ user_id: userId })
+                .skip((page - 1) * limit) // Skip records for pagination
+                .limit(Number(limit)); // Limit the number of records
+    
+    return res.status(200)
+            .json(new ApiResponse(200,videos,"fetched successfully."))
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
     // TODO: get video, upload to cloudinary, create video
+    // all parameter check once empty
+    if([title, description].some((field) => 
+        field?.trim() === "")
+    ){
+        throw new ApiError(400, "All fields are required")
+    }
+
+    const videoPath = req.files?.video[0]?.path;
+    console.log("=======",req.body)
 })
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
+    if(!videoId){
+        throw new ApiError(400, "Video id is required.")
+    }
+
+    const videos = await Video.findById(videoId);
+
+    return res.status(200)
+            .json(new ApiResponse(200,videos,"fetched successfully."))
 })
 
 const updateVideo = asyncHandler(async (req, res) => {
